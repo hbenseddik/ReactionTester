@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+	<title>Reaction Tester</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<link href="css/hover.css" rel="stylesheet" media="all">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+	<style type="text/css">
+	#body{
+		font-family: Verdana, Geneva, sans-serif;
+		width: 900px;
+		margin: auto;
+	}
+	#box{
+		display: none;
+		position: relative;
+	}
+	small{
+		color: #585858;
+	}
+	#info{
+		margin: 50px;
+		border-radius: 4px;
+		background-color: rgb(255, 255, 255);
+		box-shadow: 0px 0px 12px 0px rgba(171, 139, 110, 0.38);
+		padding: 15px;
+	}
+	span{
+		margin-left: 20px;
+	}
+	</style>
+<body>
+	<div id="info" class="hvr-shadow-radial">		
+		<h1 class="hvr-float-shadow">Test your reactions!</h1><br>
+		<h4 class="hvr-float-shadow">Game instructions:</h4><span>Click the appearing shapes as fast as you can.</span><br>
+		<h4 class="hvr-float-shadow">Stats:</h4><span id="stat"></span>
+	</div>
+	<div id="box" class="hvr-float-shadow"></div>	
+	
+	<script type="text/javascript">
+		function getRandomColor(){
+			var letters='0123456789ABCDEF'.split('');
+			var color='#';
+			for (i=0;i<6;i++){
+				color+=letters[Math.round(Math.random()*15)];
+			}
+			return color;
+		}
+		var clickedTime; var createdTime; var reactionTime; var rating=""; 
+		function makebox(){
+			var time=Math.random();
+			time=time*5000;	
+			setTimeout(function(){
+				var width=[Math.random()*600];			
+				var height=[Math.random()*600];			
+				var radius=[Math.random()*600];		
+				var top=[Math.random()*600];
+				var left=[Math.random()*600];
+				document.getElementById("box").style.top=top+"px";
+				document.getElementById("box").style.left=left+"px";
+				document.getElementById("box").style.backgroundColor=getRandomColor();
+				document.getElementById("box").style.width=width+"px";
+				document.getElementById("box").style.height=height+"px";
+				document.getElementById("box").style.borderRadius=radius+"px";
+				document.getElementById("box").style.display="block";
+				createdTime=Date.now();
+			}, time)
+		}
+		document.getElementById("box").onclick=function(){
+			clickedTime=Date.now();
+			reactionTime=(clickedTime-createdTime)/1000;
+			if (reactionTime<1){rating="Very Good, you are fast";}
+			else{rating="Not bad. Try to click the object faster next time";}
+			document.getElementById("stat").innerHTML=" Your reaction time is "+reactionTime +" seconds. "+rating;
+			this.style.display="none";
+			makebox();	
+		}
+		makebox();
+	</script>
+</body>
+</html>
